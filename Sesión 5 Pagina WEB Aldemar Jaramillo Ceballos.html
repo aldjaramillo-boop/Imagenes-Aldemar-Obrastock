@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConstructPro - Servicios de Construcción</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #ffffff;
+            --foreground: #1f2937;
+            --card: #f8fafc;
+            --card-foreground: #1f2937;
+            --primary: #374151;
+            --primary-foreground: #ffffff;
+            --secondary: #6366f1;
+            --secondary-foreground: #ffffff;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --input: #f1f5f9;
+            --radius: 0.5rem;
+        }
+        
+        .font-heading { font-family: 'Playfair Display', serif; }
+        .font-body { font-family: 'Source Sans Pro', sans-serif; }
+        
+        /* Agregando animaciones 3D avanzadas para las tarjetas del menú */
+        .menu-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-12px) rotateX(5deg) rotateY(5deg) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(99, 102, 241, 0.3);
+            border-color: var(--secondary);
+        }
+        
+        /* Animación flotante para las tarjetas */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateZ(0deg); }
+            25% { transform: translateY(-5px) rotateZ(1deg); }
+            50% { transform: translateY(-3px) rotateZ(0deg); }
+            75% { transform: translateY(-7px) rotateZ(-1deg); }
+        }
+        
+        /* Efectos 3D avanzados para los botones */
+        .btn-primary, .btn-secondary {
+            border-radius: var(--radius);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #4b5563);
+            color: var(--primary-foreground);
+            box-shadow: 0 4px 15px rgba(55, 65, 81, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #4f46e5);
+            color: var(--secondary-foreground);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Efectos hover 3D con zoom y movimiento para botones */
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.08) rotateX(10deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary), #4f46e5);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #4338ca, #3730a3);
+        }
+        
+        /* Efecto de ondas al hacer clic */
+        .btn-primary:active, .btn-secondary:active {
+            transform: translateY(-1px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+        
+        /* Animación de pulso para los iconos */
+        .icon-container {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        .menu-card:hover .icon-container {
+            transform: scale(1.2) rotateY(360deg);
+            animation: none;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            }
+        }
+        
+        /* Animación de entrada escalonada para las tarjetas */
+        .menu-card:nth-child(1) { animation-delay: 0s; }
+        .menu-card:nth-child(2) { animation-delay: 0.2s; }
+        .menu-card:nth-child(3) { animation-delay: 0.4s; }
+        .menu-card:nth-child(4) { animation-delay: 0.6s; }
+        .menu-card:nth-child(5) { animation-delay: 0.8s; }
+        
+        /* Efecto de brillo en movimiento */
+        .btn-primary::before, .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before, .btn-secondary:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="h-full bg-white font-body">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b" style="border-color: var(--border);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-heading font-bold text-gray-800">ConstructPro</h1>
+                        <p class="text-sm text-gray-600">Servicios Profesionales de Construcción</p>
+                    </div>
+                </div>
+                <nav class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Inicio</a>
+                        <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Servicios</a>
+                        <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contacto</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Hero Section -->
+        <div class="relative text-center mb-16 rounded-lg overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+                 style="background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Obrastock-BUPokhMA97pyvXyA7td96DdyPorpVR.jpeg');">
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="relative z-10 py-24 px-8">
+                <h2 class="text-5xl font-heading font-bold text-white mb-4 text-balance">
+                    Obrastock el aliado escencial para tu empresa
+                </h2>
+                <p class="text-xl text-gray-200 max-w-3xl mx-auto">
+                    Gestiona eficientemente todos los aspectos de tus proyectos de construcción desde una sola plataforma
+                </p>
+            </div>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Dashboard de Control de Obra -->
+            <div class="menu-card p-8 text-center">
+                <!-- Agregando clase icon-container para animaciones del icono -->
+                <div class="icon-container w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Dashboard de Control de Obra</h3>
+                <p class="text-gray-600 mb-6">Monitorea el progreso, cronogramas y estado general de todas tus obras en tiempo real</p>
+                <button class="btn-primary px-6 py-3 font-medium w-full" onclick="mostrarDashboard()">
+    Acceder al Dashboard
+</button>
+
+            </div>
+			
+			
+
+
+            <!-- Dashboard de Costos cambiado a PQRS-->
+            <div class="menu-card p-8 text-center">
+                <div class="icon-container w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Peticiones, Quejas, Reclamos y Sugerencias PQRS</h3>
+                <p class="text-gray-600 mb-6">Ayudanos a mejorar, envianos tu PQRS por este medio</p>
+                <button class="btn-secondary px-6 py-3 font-medium w-full"onclick="mostrarPQRS()">
+                    Clic aquí para registrar tus PQRS
+                </button>
+            </div>
+
+            <!-- Obras Asignadas -->
+            <div class="menu-card p-8 text-center">
+                <div class="icon-container w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Obras Asignadas</h3>
+                <p class="text-gray-600 mb-6">Visualiza y gestiona todas las obras activas asignadas a tu empresa</p>
+                <button class="btn-primary px-6 py-3 font-medium w-full">
+                    Ver Mis Obras
+                </button>
+            </div>
+
+            <!-- Nuestros Clientes -->
+            <div class="menu-card p-8 text-center">
+                <div class="icon-container w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Nuestros Clientes</h3>
+                <p class="text-gray-600 mb-6">Administra la información y historial de todas las constructoras cliente</p>
+				
+                <button class="btn-secondary px-6 py-3 font-medium w-full" onclick="mostrarClientes()">
+    Gestionar Clientes
+</button>
+
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div class="menu-card p-8 text-center md:col-span-2 lg:col-span-1">
+                <div class="icon-container w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Mas información sobre nosotros</h3>
+                <p class="text-gray-600 mb-6">Revisa nuestra misión, visión, historia, y mas información interesante sobre nosotros</p>
+                <button class="btn-primary px-6 py-3 font-medium w-full" onclick="mostrarRegistroEmpresa()">
+                    Información sobre la empresa
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats Section -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-12">
+            <h3 class="text-2xl font-heading font-bold text-gray-900 mb-8 text-center">Resumen Ejecutivo</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">24</div>
+                    <div class="text-gray-600">Obras Activas</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600 mb-2">18</div>
+                    <div class="text-gray-600">Clientes Activos</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-orange-600 mb-2">95%</div>
+                    <div class="text-gray-600">Cumplimiento</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">$2.4M</div>
+                    <div class="text-gray-600">Valor Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Obrastock Benefits Section -->
+        <div class="bg-white border border-gray-200 rounded-lg p-8 mb-12 shadow-sm">
+            <h3 class="text-3xl font-heading font-bold text-gray-900 mb-8 text-center text-balance">
+                ¿Porque necesitamos Obrastock en nuestra cantera o empresa de urbanismo vial?
+            </h3>
+            <div class="max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold text-sm">1</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Disminuye perdidas por robo de materia prima</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold text-sm">2</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Monitoreo Inteligente 24/7</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold text-sm">3</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Gestión Precisa de Entradas y Salidas de Camiones</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold text-sm">4</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Integración con GPS y Básculas Electrónicas</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 font-semibold text-sm">5</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Seguridad de Datos y Trazabilidad Completa</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 font-semibold text-sm">6</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Ahorro de Tiempo y Reducción de Costos Operativos</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 font-semibold text-sm">7</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Acceso desde tu Móvil, Tablet o PC</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 font-semibold text-sm">8</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Decisiones Inteligentes Basadas en Datos Reales</p>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 font-semibold text-sm">9</span>
+                            </div>
+                            <p class="text-gray-700 font-medium">Integración Fácil con tu ERP o Software de Gestión</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<!-- DASHBOARD FULLSCREEN -->
+<div id="dashboardFull" class="hidden fixed inset-0 bg-white z-50 flex flex-col">
+    
+    <!-- Botón de volver -->
+    <div class="p-4 bg-gray-900 text-white flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Dashboard de Control de Obra</h2>
+        <button 
+            onclick="cerrarDashboard()" 
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold">
+            ← Volver al Menú
+        </button>
+    </div>
+
+    <!-- Iframe del dashboard -->
+    <iframe 
+        id="powerbiFrameFull"
+        class="flex-1 w-full"
+        src=""
+        frameborder="0"
+        allowfullscreen="true">
+    </iframe>
+</div>
+
+<!-- FULLSCREEN MIS CLIENTES -->
+<div id="clientesFull" class="hidden fixed inset-0 bg-white z-50 flex flex-col">
+
+    <!-- Botón de volver -->
+    <div class="p-4 bg-gray-900 text-white flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Nuestros Clientes</h2>
+        <button 
+            onclick="cerrarClientes()" 
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold">
+            ← Volver al Menú
+        </button>
+    </div>
+
+    <!-- Contenedor de imágenes -->
+    <div class="flex-1 overflow-auto p-6 space-y-6">
+        <img src="https://github.com/aldjaramillo-boop/Imagenes-Aldemar-Obrastock/blob/main/Arfenas%20y%20triturados%20del%20sur.png?raw=true" class="w-1/3 mx-auto rounded-lg shadow">
+        <img src="https://github.com/aldjaramillo-boop/Imagenes-Aldemar-Obrastock/blob/main/Jaramillo%20Mora.png?raw=true" class="w-1/3 mx-auto rounded-lg shadow">
+        <img src="https://github.com/aldjaramillo-boop/Imagenes-Aldemar-Obrastock/blob/main/Melendez.webp?raw=true" class="w-1/2 mx-auto rounded-lg shadow">
+    </div>
+
+</div>
+
+
+<!-- FULLSCREEN PQRS -->
+<div id="pqrsFull" class="hidden fixed inset-0 bg-white z-50 flex flex-col">
+
+    <!-- Encabezado -->
+    <div class="p-4 bg-gray-900 text-white flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Formulario PQRS</h2>
+        <button 
+            onclick="cerrarPQRS()" 
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold">
+            ← Volver al Menú
+        </button>
+    </div>
+
+    <!-- Formulario -->
+    <div class="flex-1 overflow-auto p-6">
+        <form 
+            action="mailto:aldjaramillo@gmail.com" 
+            method="POST" 
+            enctype="text/plain"
+            class="max-w-2xl mx-auto space-y-6"
+        >
+
+            <!-- Tipo de Solicitud -->
+            <div>
+                <label class="block text-lg font-medium mb-2">Tipo de PQRS</label>
+                <select name="Tipo de Solicitud" class="w-full border rounded-md p-3">
+                    <option value="Peticion">Peticion</option>
+                    <option value="Queja">Queja</option>
+                    <option value="Reclamo">Reclamo</option>
+                    <option value="Solicitud">Solicitud</option>
+                </select>
+            </div>
+
+            <!-- Mensaje -->
+            <div>
+                <label class="block text-lg font-medium mb-2">Descripción</label>
+                <textarea 
+                    name="Mensaje"
+                    rows="8"
+                    class="w-full border rounded-md p-3"
+                    placeholder="Escribe aquí tu mensaje..."
+                    required
+                ></textarea>
+            </div>
+
+            <!-- Botón Enviar -->
+            <div class="text-center">
+                <button 
+                    type="submit"
+                    class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-md">
+                    Enviar PQRS
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+
+/------------------------------------------------------------------------
+<!-- FULLSCREEN INFORMACIÓN EMPRESA -->
+<div id="infoEmpresaFull" class="hidden fixed inset-0 bg-white z-50 flex flex-col overflow-auto">
+
+    <!-- Encabezado -->
+    <div class="p-4 bg-gray-900 text-white flex justify-between items-center shadow">
+        <h2 class="text-xl font-semibold">Información Corporativa</h2>
+        <button 
+            onclick="cerrarRegistroEmpresa()" 
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold">
+            ← Volver al Menú
+        </button>
+    </div>
+
+    <!-- Hero con imagen -->
+    <div class="w-full h-64 bg-cover bg-center" 
+         style="background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Obrastock-BUPokhMA97pyvXyA7td96DdyPorpVR.jpeg');">
+        <div class="w-full h-full bg-black bg-opacity-40 flex items-center justify-center">
+            <h1 class="text-4xl font-heading text-white font-bold drop-shadow-lg">
+                Nuestra Empresa
+            </h1>
+        </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="max-w-4xl mx-auto p-8 space-y-10 text-gray-800 leading-relaxed">
+
+        <!-- Historia -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Historia</h3>
+            <p class="text-lg">
+                Fundada en Cali, Valle del Cauca, en el año 2025, nuestra empresa nace del sueño de dos emprendedores colombianos apasionados por la construcción, la innovación tecnológica y la optimización de procesos operativos. Ambos trabajaron durante años en proyectos de infraestructura y vivieron de primera mano las dificultades asociadas al control de materiales como arena, balastro y otros agregados, especialmente en entornos donde la trazabilidad y la supervisión eran limitadas.
+            </p>
+            <p class="text-lg mt-3">
+                Identificando una necesidad crítica del sector —la falta de herramientas confiables para monitorear inventarios, movimientos de camiones y actividades en canteras— decidieron crear una solución que integrara tecnología avanzada con acompañamiento presencial en obra. Así nació <strong>[Nombre de tu empresa]</strong>, una compañía pionera en gestión inteligente de materiales para obras de urbanismo, combinando dashboards de alto nivel, análisis de datos y supervisión operativa.
+            </p>
+            <p class="text-lg mt-3">
+                Con el paso de los años, la empresa evolucionó para ofrecer servicios más robustos, integrando GPS, sensores IoT, básculas electrónicas y plataformas web que permiten a sus clientes tomar decisiones basadas en datos reales, minimizar pérdidas y mejorar la eficiencia de sus obras.
+            </p>
+            <p class="text-lg mt-3">
+                Hoy, después de más de una década de experiencia, la empresa se posiciona como un aliado estratégico para constructoras, urbanizadoras, canteras y operadores logísticos en todo el país.
+            </p>
+        </section>
+
+        <!-- Misión -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Misión</h3>
+            <p class="text-lg">
+                Brindar soluciones integrales e inteligentes para la gestión y monitoreo de materiales de construcción, combinando tecnología avanzada, análisis de datos y presencia operativa en obra. Buscamos optimizar los procesos de nuestros clientes reduciendo pérdidas, mejorando la trazabilidad y garantizando un control preciso y seguro de los recursos involucrados en proyectos de urbanismo y construcción.
+            </p>
+        </section>
+
+        <!-- Visión -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Visión</h3>
+            <p class="text-lg">
+                Ser para el año 2030 la empresa líder en Colombia y Latinoamérica en soluciones de monitoreo y gestión inteligente de agregados y logística para obras de construcción, reconocida por nuestra innovación, confiabilidad tecnológica y por contribuir a una industria más eficiente, sostenible y transparente.
+            </p>
+        </section>
+
+        <!-- Valores -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Valores Corporativos</h3>
+            <ul class="space-y-2 text-lg">
+                <li><strong>Transparencia:</strong> Garantizamos información clara, confiable y en tiempo real.</li>
+                <li><strong>Innovación:</strong> Adoptamos tecnologías de punta para mejorar continuamente nuestros servicios.</li>
+                <li><strong>Compromiso:</strong> Acompañamos a nuestros clientes antes, durante y después de cada proyecto.</li>
+                <li><strong>Seguridad:</strong> Protegemos los datos, recursos y operaciones de quienes confían en nosotros.</li>
+                <li><strong>Eficiencia:</strong> Optimizamos cada proceso para reducir tiempos, costos y pérdidas.</li>
+                <li><strong>Responsabilidad:</strong> Actuamos con ética y respeto en cada obra y cada decisión.</li>
+            </ul>
+        </section>
+
+        <!-- Objetivos Estratégicos -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Objetivos Estratégicos</h3>
+            <ul class="list-disc pl-6 space-y-2 text-lg">
+                <li>Reducir pérdidas por robo y manejo ineficiente de materiales.</li>
+                <li>Centralizar la información operativa en dashboards intuitivos.</li>
+                <li>Ofrecer supervisión presencial en obra para garantizar control y cumplimiento.</li>
+                <li>Integrar tecnologías GPS, IoT y básculas electrónicas.</li>
+                <li>Optimizar tiempos y costos operativos para la toma de decisiones.</li>
+                <li>Facilitar accesibilidad desde cualquier dispositivo.</li>
+                <li>Integrarse con ERPs administrativos.</li>
+                <li>Expandir cobertura nacional e internacional.</li>
+            </ul>
+        </section>
+
+        <!-- Descripción General -->
+        <section>
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Descripción General</h3>
+            <p class="text-lg">
+                <strong>[Nombre de tu empresa]</strong> es una compañía especializada en la gestión inteligente de materiales de agregados para proyectos de urbanismo y construcción, combinando tecnología, análisis de datos y supervisión operativa.
+            </p>
+            <ul class="list-disc pl-6 space-y-2 text-lg mt-4">
+                <li>Prevenir el robo y la pérdida de materiales.</li>
+                <li>Supervisar entradas y salidas de camiones.</li>
+                <li>Controlar consumos de agregados en tiempo real.</li>
+                <li>Monitorear operaciones en canteras.</li>
+                <li>Integrarse con plataformas administrativas.</li>
+                <li>Tomar decisiones confiables basadas en datos.</li>
+            </ul>
+        </section>
+
+        <!-- Propuesta de Valor -->
+        <section class="pb-10">
+            <h3 class="text-3xl font-heading font-bold text-blue-700 mb-4">Propuesta de Valor</h3>
+            <p class="text-lg">
+                Transformamos la manera en que las obras y canteras gestionan sus recursos, ofreciendo una plataforma integral que combina datos, tecnología y presencia física para garantizar control total, evitar pérdidas y maximizar la eficiencia operativa.
+            </p>
+        </section>
+
+    </div>
+</div>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">ConstructPro</h4>
+                    <p class="text-gray-300">Soluciones integrales para empresas de construcción. Optimizamos tus procesos y maximizamos tu eficiencia.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Servicios</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Gestión de Obras</li>
+                        <li>Control de Costos</li>
+                        <li>Administración de Clientes</li>
+                        <li>Reportes y Analytics</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+                    <div class="text-gray-300">
+                        <p>Email: Obrastock@gmail.com</p>
+                        <p>Teléfono: +57 3003150729</p>
+                        <p>Dirección: Valle del cauca, Cali</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ConstructPro. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+	
+	<script>
+function mostrarDashboard() {
+
+    const url = "https://app.powerbi.com/view?r=eyJrIjoiOGIxNmMyMDYtZWEwYy00MDczLWJkZjItZjc2MWEyODhhOWQwIiwidCI6ImMzZmFlNTNmLTI4YmItNDc5NS04MzE2LTFhODljNzIwNTQzMCJ9";
+
+    // Ocultar todo el contenido principal
+    document.querySelector("main").classList.add("hidden");
+
+    // Mostrar dashboard fullscreen
+    const fullScreen = document.getElementById("dashboardFull");
+    fullScreen.classList.remove("hidden");
+
+    // Asignar URL
+    const frame = document.getElementById("powerbiFrameFull");
+    frame.src = url;
+}
+
+function cerrarDashboard() {
+
+    // Ocultar dashboard
+    const fullScreen = document.getElementById("dashboardFull");
+    fullScreen.classList.add("hidden");
+
+    // Mostrar contenido principal
+    document.querySelector("main").classList.remove("hidden");
+
+    // Limpiar iframe para detener carga
+    document.getElementById("powerbiFrameFull").src = "";
+}
+</script>
+
+ //Clientes--------------------------------
+<script>
+function mostrarClientes() {
+    // ocultar contenido principal
+    document.querySelector("main").classList.add("hidden");
+
+    // mostrar visor
+    document.getElementById("clientesFull").classList.remove("hidden");
+}
+
+function cerrarClientes() {
+    // ocultar visor
+    document.getElementById("clientesFull").classList.add("hidden");
+
+    // mostrar menú
+    document.querySelector("main").classList.remove("hidden");
+}
+</script>
+
+ //PQRS---------------------------------
+
+<script>
+function mostrarPQRS() {
+    document.querySelector("main").classList.add("hidden");
+    document.getElementById("pqrsFull").classList.remove("hidden");
+}
+
+function cerrarPQRS() {
+    document.getElementById("pqrsFull").classList.add("hidden");
+    document.querySelector("main").classList.remove("hidden");
+}
+</script>
+
+//Información de la empresa------------------------------
+<script>
+function mostrarRegistroEmpresa() {
+    document.querySelector("main").classList.add("hidden");
+    document.getElementById("infoEmpresaFull").classList.remove("hidden");
+}
+
+function cerrarRegistroEmpresa() {
+    document.getElementById("infoEmpresaFull").classList.add("hidden");
+    document.querySelector("main").classList.remove("hidden");
+}
+</script>
+
+	
+</body>
+
+<script>
+
+</script>
+
+
+</html>
